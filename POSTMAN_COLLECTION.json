@@ -1,0 +1,680 @@
+{
+  "info": {
+    "_postman_id": "uas-api-collection",
+    "name": "UAS API Testing - HoaxChecker",
+    "description": "Complete API testing collection for HoaxChecker UAS API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "5.1 Testing Autentikasi API",
+      "item": [
+        {
+          "name": "5.1.1 Register API",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"testuser@example.com\",\n  \"password\": \"Password123!\",\n  \"password_confirmation\": \"Password123!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/register",
+              "host": ["{{base_url}}"],
+              "path": ["api", "register"]
+            },
+            "description": "Register new user account"
+          }
+        },
+        {
+          "name": "5.1.2 Login API",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"testuser@example.com\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "login"]
+            },
+            "description": "Login and get token"
+          }
+        },
+        {
+          "name": "5.1.3 Logout API",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/logout",
+              "host": ["{{base_url}}"],
+              "path": ["api", "logout"]
+            },
+            "description": "Logout and revoke token"
+          }
+        },
+        {
+          "name": "5.1.4 Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"testuser@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/forgot-password",
+              "host": ["{{base_url}}"],
+              "path": ["api", "forgot-password"]
+            },
+            "description": "Request password reset"
+          }
+        }
+      ]
+    },
+    {
+      "name": "5.2 Testing Autorisasi dan Proteksi API",
+      "item": [
+        {
+          "name": "5.2.1 Middleware Authentication",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/user/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "user", "profile"]
+            },
+            "description": "Get authenticated user profile"
+          }
+        },
+        {
+          "name": "5.2.2 Get All Users (Admin Only)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/users",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users"]
+            },
+            "description": "Get all users (requires admin role)"
+          }
+        },
+        {
+          "name": "5.2.3 Delete User (Admin Only)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/users/2",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users", "2"]
+            },
+            "description": "Delete user by ID"
+          }
+        },
+        {
+          "name": "5.2.4 Get Reports (Verifikator Only)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{verifikator_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/verifikator/reports",
+              "host": ["{{base_url}}"],
+              "path": ["api", "verifikator", "reports"]
+            },
+            "description": "Get pending reports for verification"
+          }
+        },
+        {
+          "name": "5.2.5 Update Report Status (Verifikator Only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{verifikator_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"valid\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/verifikator/reports/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "verifikator", "reports", "1"]
+            },
+            "description": "Update report verification status"
+          }
+        }
+      ]
+    },
+    {
+      "name": "5.3 Testing API Analisis Hoaks",
+      "item": [
+        {
+          "name": "5.3.1 Analyze Title Only",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Presiden RI akan mengundurkan diri besok\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/hoax/analyze/title",
+              "host": ["{{base_url}}"],
+              "path": ["api", "hoax", "analyze", "title"]
+            },
+            "description": "Analyze news title for hoax detection"
+          }
+        },
+        {
+          "name": "5.3.2 Analyze Content",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Presiden RI akan mengundurkan diri besok\",\n  \"content\": \"Sumber terpercaya melaporkan bahwa presiden akan mengumumkan pengunduran diri dalam konferensi pers besok pukul 10 pagi. Keluarga presiden dan kabinet telah dihubungi untuk pertemuan darurat malam ini.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/hoax/analyze/content",
+              "host": ["{{base_url}}"],
+              "path": ["api", "hoax", "analyze", "content"]
+            },
+            "description": "Analyze news with title and content"
+          }
+        },
+        {
+          "name": "5.3.3 Analyze with Link",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Breaking: Important Government Update\",\n  \"url\": \"https://example-news.com/breaking-news\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/hoax/analyze/link",
+              "host": ["{{base_url}}"],
+              "path": ["api", "hoax", "analyze", "link"]
+            },
+            "description": "Analyze news from URL"
+          }
+        }
+      ]
+    },
+    {
+      "name": "5.4 Testing CRUD API",
+      "item": [
+        {
+          "name": "5.4.1 Get All Educations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/educations",
+              "host": ["{{base_url}}"],
+              "path": ["api", "educations"]
+            },
+            "description": "Get all education articles"
+          }
+        },
+        {
+          "name": "5.4.2 Create Education (Admin Only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Cara Mengenali Berita Hoax\",\n  \"content\": \"Berikut adalah langkah-langkah untuk mengenali berita hoax...\",\n  \"category\": \"Tips\",\n  \"youtube_url\": \"https://youtube.com/watch?v=example\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/educations",
+              "host": ["{{base_url}}"],
+              "path": ["api", "educations"]
+            },
+            "description": "Create new education article"
+          }
+        },
+        {
+          "name": "5.4.3 Get Single Education",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/educations/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "educations", "1"]
+            },
+            "description": "Get single education article by ID"
+          }
+        },
+        {
+          "name": "5.4.4 Update Education (Admin Only)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Cara Mengenali Berita Hoax - Updated\",\n  \"content\": \"Konten yang telah diperbarui...\",\n  \"category\": \"Tips Verifikasi\",\n  \"youtube_url\": \"https://youtube.com/watch?v=updated\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/educations/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "educations", "1"]
+            },
+            "description": "Update education article"
+          }
+        },
+        {
+          "name": "5.4.5 Delete Education (Admin Only)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/educations/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "educations", "1"]
+            },
+            "description": "Delete education article"
+          }
+        },
+        {
+          "name": "5.4.6 Get User History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/history",
+              "host": ["{{base_url}}"],
+              "path": ["api", "history"]
+            },
+            "description": "Get user's hoax check history"
+          }
+        },
+        {
+          "name": "5.4.7 Get Single History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/history/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "history", "1"]
+            },
+            "description": "Get single history entry"
+          }
+        },
+        {
+          "name": "5.4.8 Delete History",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/history/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "history", "1"]
+            },
+            "description": "Delete history entry"
+          }
+        },
+        {
+          "name": "5.4.9 Submit Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Laporan Berita Mencurigakan\",\n  \"source_url\": \"https://example.com/news\",\n  \"content\": \"Isi berita yang mencurigakan dan mungkin hoax...\",\n  \"category\": \"Politik\",\n  \"urgency\": \"high\",\n  \"description\": \"Keterangan tambahan tentang laporan ini\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/lapor",
+              "host": ["{{base_url}}"],
+              "path": ["api", "lapor"]
+            },
+            "description": "Submit report about suspicious news"
+          }
+        }
+      ]
+    },
+    {
+      "name": "5.5 Testing Integrasi API",
+      "item": [
+        {
+          "name": "5.5.1 Analyze with OpenAI",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Breaking News Title\",\n  \"content\": \"News content for OpenAI analysis\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/analyze/openai",
+              "host": ["{{base_url}}"],
+              "path": ["api", "analyze", "openai"]
+            },
+            "description": "Analyze news using OpenAI integration"
+          }
+        },
+        {
+          "name": "5.5.2 Analyze with NewsAPI",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"teknologi terbaru\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/analyze/newsapi",
+              "host": ["{{base_url}}"],
+              "path": ["api", "analyze", "newsapi"]
+            },
+            "description": "Get news from NewsAPI and analyze"
+          }
+        },
+        {
+          "name": "5.5.3 Add YouTube Video (Admin Only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Tutorial Verifikasi Berita\",\n  \"content\": \"Video tutorial lengkap cara verifikasi berita...\",\n  \"category\": \"Tutorial\",\n  \"youtube_url\": \"https://www.youtube.com/watch?v=example\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/educations/youtube",
+              "host": ["{{base_url}}"],
+              "path": ["api", "educations", "youtube"]
+            },
+            "description": "Add YouTube video to education section"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string",
+      "description": "User token - get from login API"
+    },
+    {
+      "key": "admin_token",
+      "value": "",
+      "type": "string",
+      "description": "Admin token - get from admin login API"
+    },
+    {
+      "key": "verifikator_token",
+      "value": "",
+      "type": "string",
+      "description": "Verifikator token - get from verifikator login API"
+    }
+  ]
+}
